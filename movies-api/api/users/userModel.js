@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt-nodejs';
 
 const Schema = mongoose.Schema;
 
@@ -17,10 +18,31 @@ UserSchema.statics.findByUserName = function(username) {
   return this.findOne({ username });
 };
 
-UserSchema.methods.comparePassword = function(password) {
-  const isMatch = this.password === password;
-  if(!isMatch) throw new Error('Password is incorrect');
-  return this;
+UserSchema.pre('save', function(next) {
+  const user = this;
+  if (this.isModified('password') || this.isNew) {
+      bcrypt.genSalt(10, (err, salt)=> {
+          if (err) {
+              return next(err);
+          }
+          bcrypt.hash(user.password, salt, null, (err, hash)=> {
+              if (err) {
+                  return next(err);
+              }
+              user.password = hash;
+              next();
+          });
+      });
+  } else {
+      return next();
+  }
+});
+
+UserSchema.methods.comparePassword = function(password,callback) {
+  bcrypt.compare(password, this.password, (err,isMatch) => {
+    if (err) return callback(err);
+  callback(null, isMatch);
+});
 };
 
 export default mongoose.model('User', UserSchema);
