@@ -13,5 +13,14 @@ const MovieSchema = new Schema({
     favourites: [MovieSchema]
   });
 
+UserSchema.statics.findByUserName = function(username) {
+  return this.findOne({ username });
+};
+
+UserSchema.methods.comparePassword = function(password) {
+  const isMatch = this.password === password;
+  if(!isMatch) throw new Error('Password is incorrect');
+  return this;
+};
 
 export default mongoose.model('User', UserSchema);
