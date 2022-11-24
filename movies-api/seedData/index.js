@@ -1,5 +1,7 @@
 import userModel from '../api/users/userModel';
 import genreModel from '../api/genres/genreModel';
+import movieModel from '../api/movies/movieModel';
+import movies from './movies.js';
 import users from './users';
 import genres from './genres';
 import dotenv from 'dotenv';
@@ -31,6 +33,19 @@ async function loadGenres(){
 }
 
 if (process.env.SEED_DB) {
-    loadUsers();
-    loadGenres();
+  loadUsers();
+  loadGenres();//you may not need this line if you skipped the exercises
+  loadMovies();//ADD THIS LINE
+}
+
+export async function loadMovies() {
+  console.log('load seed data');
+  console.log(movies.length);
+  try {
+    await movieModel.deleteMany();
+    await movieModel.collection.insertMany(movies);
+    console.info(`${movies.length} Movies were successfully stored.`);
+  } catch (err) {
+    console.error(`failed to Load movie Data: ${err}`);
+  }
 }
