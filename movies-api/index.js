@@ -3,7 +3,7 @@ import express from 'express';
 import moviesRouter from './api/movies';
 import genresRouter from './api/genres';
 import session from 'express-session';
-import authenticate from './authenticate';
+import passport from './authenticate';
 import './seedData';
 import './db';
 import usersRouter from './api/users';
@@ -29,7 +29,8 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
-app.use('/api/movies', authenticate, moviesRouter);
+app.use(passport.initialize());
+app.use('/api/movies', passport.authenticate('jwt', {session: false}), moviesRouter);
 app.use('/api/genres', genresRouter);
 app.use('/api/users', usersRouter);
 
