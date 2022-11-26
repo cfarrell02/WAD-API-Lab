@@ -45,7 +45,6 @@ export async function loadMovies() {
     await movieModel.deleteMany();
     await movieModel.collection.insertMany(movies);
     console.info(`${movies.length} Movies were successfully stored.`);
-  //  movies.forEach(movie => {console.log(`Title is ${movie.title} and ID is ${movie.id}`)});
   } catch (err) {
     console.error(`failed to Load movie Data: ${err}`);
   }
