@@ -1,5 +1,5 @@
 import express from 'express';
-import {movies, movieReviews, movieDetails} from './movieData.js';
+import {movies, movieReviews} from './movieData.js';
 import uniqid from 'uniqid';
 import movieModel from './movieModel';
 import asyncHandler from 'express-async-handler';
