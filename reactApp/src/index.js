@@ -4,6 +4,8 @@ import { BrowserRouter, Route, Redirect, Switch, Link } from "react-router-dom";
 import { PublicPage, Movies, Profile, HomePage } from "./pages";
 
 const App = () => {
+
+
   return (
     <BrowserRouter>
         <ul>
