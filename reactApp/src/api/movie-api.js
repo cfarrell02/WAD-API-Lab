@@ -13,7 +13,7 @@ export const signup = (username, password) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        method: 'PUT',
+        method: 'POST',
         body: JSON.stringify({username: username, password: password })
     }).then(res => res.json());
 }
